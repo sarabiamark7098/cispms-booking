@@ -1,12 +1,12 @@
 <script setup>
 import Carousel from '@/components/carousel.vue'
-import FooterView from '@/components/FooterView.vue';
+import FooterView from '@/components/FooterView.vue'
 </script>
 
 <template>
   <div class="relative max-w-full mt-20">
     <div class="bg-blue-600">
-      <img src="../assets/Home.png" class="w-full h-96 object-cover opacity-70" alt="image" />
+      <img src="../assets/Home1.jpg" class="w-full h-96 object-cover opacity-60" alt="image" />
       <div
         class="absolute top-64 inset-x-px text-center text-white font-bold text-4xl tracking-wide font-sans"
       >
@@ -45,14 +45,8 @@ import FooterView from '@/components/FooterView.vue';
       <Carousel />
     </div>
   </div>
-  
+
   <FooterView />
 </template>
 
-<style scoped>
-.landingimage {
-  background-image: url('../assets/Home.png');
-  height: 450px;
-  width: 100%;
-}
-</style>
+<style scoped></style>

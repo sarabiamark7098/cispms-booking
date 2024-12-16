@@ -89,7 +89,7 @@ const items = [
           <img
             :src="item.image"
             :alt="item.name"
-            class="max-h-[120px] mb-7 filter grayscale hover:grayscale-0 transition-all ease-in-out duration-500"
+            class="max-h-[120px] mb-7 filter transition-all ease-in-out duration-500"
           />
           <div>
             <ul class="list-disc space-y-1">
