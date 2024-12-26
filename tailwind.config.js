@@ -1,14 +1,12 @@
-module.exports = {
-  purge: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
-    darkMode: false, // or 'media' or 'class'
-    theme: {
-      extend: {
-      },
-    },
-    variants: {
-      extend: {},
-    },
-    plugins: [
-      require('daisyui'),
-    ],
+import daisyui from 'daisyui';
+import forms from '@tailwindcss/forms';
+export default {
+  content: ['./src/**/*.{html,js,ts,jsx,tsx,vue}', './public/**/*.html'],
+  theme: {
+    extend: {},
+  },
+  variants: {
+    extend: {},
+  },
+  plugins: [daisyui, forms],
 }

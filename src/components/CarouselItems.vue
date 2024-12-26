@@ -81,16 +81,14 @@ const items = [
 <template>
   <div className="carousel w-full ">
     <div v-for="item in items" :key="item.name">
-      <div id="HospitalBill_content" className="carousel-item">
+      <div className="carousel-item">
         <div
-          class="bg-white w-[340px] h-[650px] rounded-xl aspect-square px-9 py-5 mx-5 flex flex-col items-center"
+          class="bg-white w-[345px] h-[650px] rounded-xl aspect-square px-12 py-5 mx-5 flex flex-col items-center"
         >
-          <p class="font-bold text-xl mb-5 text-center">{{ item.name }}</p>
-          <img
-            :src="item.image"
-            :alt="item.name"
-            class="max-h-[120px] mb-7 filter transition-all ease-in-out duration-500"
-          />
+          <div class="h-[70px]">
+            <p class="font-bold text-lg mb-5 text-center">{{ item.name }}</p>
+          </div>
+          <img :src="item.image" :alt="item.name" class="max-h-[120px] mb-7" />
           <div>
             <ul class="list-disc space-y-1">
               <li v-for="description in item.desc" class="">

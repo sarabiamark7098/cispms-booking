@@ -1,15 +1,28 @@
 <script setup>
+import { ref } from 'vue'
 import { RouterLink, RouterView } from 'vue-router'
 import LandingPage from './components/LandingPage.vue'
 import Navbar from './components/Navbar.vue'
+import Modal from './components/Modal.vue'
+
+const isModalOpen = ref(false)
+
+const openModal = () => {
+  isModalOpen.value = true
+}
+
+const closeModal = () => {
+  isModalOpen.value = false
+}
 </script>
 
 <template>
   <header class="shadow-lg bg-indigo-50 bg-blend-darken">
     <div class="wrapper">
-      <Navbar />
-      <LandingPage />
+      <Navbar @open-modal="openModal" />
 
+      <Modal :show="isModalOpen" @close="closeModal" />
+      <LandingPage />
     </div>
   </header>
 
@@ -17,8 +30,6 @@ import Navbar from './components/Navbar.vue'
 </template>
 
 <style scoped>
-
 @media (min-width: 1920px) {
-
 }
 </style>

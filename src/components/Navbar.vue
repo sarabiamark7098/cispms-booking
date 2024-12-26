@@ -7,6 +7,8 @@ const isMenuOpen = ref(false)
 const toggleMenu = () => {
   isMenuOpen.value = !isMenuOpen.value
 }
+
+defineEmits(['open-modal'])
 </script>
 
 <template>
@@ -17,13 +19,13 @@ const toggleMenu = () => {
           <!-- Brand -->
           <div class="flex flex-inline">
             <a href="#" class="text-2xl font-bold text-blue-400 px-2 mx-0">
-              <img class="max-h-20 max-w-60 image-white" src="../assets/AICS.png" alt="" />
+              <img class="max-h-20 max-w-60 image-white" src="@/assets/AICS.png" alt="" />
             </a>
             <a href="#" class="text-2xl font-bold text-blue-400 px-2 mx-0">
-              <img class="max-h-20 max-w-60 image-white" src="../assets/onse_connect.png" alt="" />
+              <img class="max-h-20 max-w-60 image-white" src="@/assets/onse_connect.png" alt="" />
             </a>
             <a href="#" class="text-2xl font-bold text-blue-400 px-2 mx-0">
-              <img class="max-h-20 max-w-72 image-white" src="../assets/DSWD_logo.png" alt="" />
+              <img class="max-h-20 max-w-72 image-white" src="@/assets/DSWD_logo.png" alt="" />
             </a>
           </div>
 
@@ -69,10 +71,11 @@ const toggleMenu = () => {
               >Citizen's Charter</RouterLink
             >
             <RouterLink
-              to="/book"
+              to="/"
+              @click="$emit('open-modal')"
               class="block w-48 text-center py-3 my-4 text-black font-bold bg-blue-600 text-white hover:bg-blue-500 rounded-full hover:shadow-md"
-              >Book Now</RouterLink
-            >
+              >Set Appointment
+            </RouterLink>
           </div>
         </div>
       </nav>
