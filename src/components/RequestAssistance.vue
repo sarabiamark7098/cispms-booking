@@ -1,34 +1,18 @@
 <script setup>
 import { ref } from 'vue'
+import Assistance_Card from './Assistance_Card.vue'
 
+const selectedAssistance = ref('')
 // defineEmits(['open-modal'])
 </script>
 
 <template>
-  <div class="text-center font-extrabold text-3xl mb-9">Select Assistance</div>
-  <div class="grid grid-cols-2 gap-9 w-full">
-    <div class="w-full col-start-1 col-span-2">
-      <select class="select border-black bg-gray-100 w-full max-full uppercase" required>
-        <option disabled selected>Assistance</option>
-        <option value="Medical Assistance for Hospital Bill">
-          Medical Assistance for Hospital Bill
-        </option>
-        <option value="Medical Assistance for Medicine / Assistive Device">
-          Medical Assistance for Medicine / Assistive Device
-        </option>
-        <option value="Medical Assistance for Laboratory Requests">
-          Medical Assistance for Laboratory Requests
-        </option>
-        <option value="Burial Assistance or Transfer of Cadaver">
-          Burial Assistance or Transfer of Cadaver
-        </option>
-        <option value="Educational Assistance">Educational Assistance</option>
-        <option value="Food Assistance">Food Assistance</option>
-        <option value="Cash Assistance for Other Support Services">
-          Cash Assistance for Other Support Services
-        </option>
-      </select>
-    </div>
+  <div class="text-center mb-9">
+    <h1 class="text-3xl font-extrabold">Select Assistance</h1>
+    <span class="text-md">Please select the type of assistance you would like to receive</span>
+  </div>
+  <div>
+    <Assistance_Card />
   </div>
 </template>
 <style scoped></style>

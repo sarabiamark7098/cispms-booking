@@ -1,7 +1,10 @@
 <script setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
+import { useFormStore } from '@/stores/storeform'
 const phoneNumber = ref('+639') // Default to +639 for Philippine numbers
 const phoneNumberError = ref(false)
+const formStore = useFormStore()
+
 // Method to format and validate phone number input
 const formatPhoneNumber = () => {
   // Remove all non-digit characters except '+'
@@ -21,11 +24,17 @@ const formatPhoneNumber = () => {
   }
 
   // Update the model with the cleaned number
-  phoneNumber.value = cleaned
+  phoneNumber.value = cleaned.slice(0, 13)
 
   // Validate phone number (ensure it starts with +639 and is 13 characters long)
   phoneNumberError.value = !/^(\+639)\d{9}$/.test(phoneNumber.value)
 }
+
+onMounted(() => {
+  if (localStorage.getItem('form')) {
+    formStore.clientForm = JSON.parse(localStorage.getItem('form'))
+  }
+})
 
 defineEmits(['open-modal'])
 </script>
@@ -42,6 +51,7 @@ defineEmits(['open-modal'])
               type="text"
               placeholder="Last Name"
               className="input w-full bg-gray-100 border-black uppercase"
+              v-model="formStore.clientForm.last_name"
               required
             />
           </div>
@@ -64,7 +74,7 @@ defineEmits(['open-modal'])
           </div>
           <div class="w-full col-start-5 col-span-2">
             <label>Ext. (e.g. JR. SR.)</label>
-            <select class="select border-black bg-gray-100 w-full max-w-xs uppercase">
+            <select class="select border-black bg-gray-100 w-full uppercase">
               <option disabled selected>Extension Name</option>
               <option>JR.</option>
               <option>SR.</option>
@@ -88,11 +98,16 @@ defineEmits(['open-modal'])
               id="phoneNumber"
               v-model="phoneNumber"
               type="tel"
+              maxlength="13"
               placeholder="Enter your phone number"
-              className="input w-full bg-gray-100 border-black"
+              class="input w-full bg-gray-100 border-black"
+              :class="{ 'border-red-600': phoneNumberError }"
               @input="formatPhoneNumber"
+              required
             />
-            <p v-if="phoneNumberError" style="color: red">Invalid phone number</p>
+            <p v-if="phoneNumberError" class="text-red-600 text-sm mt-1">
+              Invalid phone number. Must be +639 followed by 9 digits.
+            </p>
             <!-- <input
               type="text"
               placeholder="Contact Number"
@@ -121,7 +136,8 @@ defineEmits(['open-modal'])
           <div class="w-full col-start-4 col-span-3">
             <button
               type="submit"
-              className="btn w-full btn-primary hover:text-white btn-xs sm:btn-sm md:btn-md lg:btn-lg "
+              className="btn w-full btn-primary hover:text-white btn-xs sm:btn-sm md:btn-md lg:btn-lg"
+              :disabled="phoneNumberError"
             >
               Submit
             </button>

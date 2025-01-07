@@ -19,13 +19,13 @@ defineEmits(['open-modal'])
           <!-- Brand -->
           <div class="flex flex-inline">
             <a href="#" class="text-2xl font-bold text-blue-400 px-2 mx-0">
+              <img class="max-h-20 max-w-72 image-white" src="@/assets/DSWD_logo.png" alt="" />
+            </a>
+            <a href="#" class="text-2xl font-bold text-blue-400 px-2 mx-0">
               <img class="max-h-20 max-w-60 image-white" src="@/assets/AICS.png" alt="" />
             </a>
             <a href="#" class="text-2xl font-bold text-blue-400 px-2 mx-0">
               <img class="max-h-20 max-w-60 image-white" src="@/assets/onse_connect.png" alt="" />
-            </a>
-            <a href="#" class="text-2xl font-bold text-blue-400 px-2 mx-0">
-              <img class="max-h-20 max-w-72 image-white" src="@/assets/DSWD_logo.png" alt="" />
             </a>
           </div>
 

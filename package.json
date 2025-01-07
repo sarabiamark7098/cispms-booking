@@ -13,10 +13,17 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@fullcalendar/core": "^6.1.15",
+    "@fullcalendar/daygrid": "^6.1.15",
+    "@fullcalendar/interaction": "^6.1.15",
+    "@fullcalendar/timegrid": "^6.1.15",
+    "@fullcalendar/vue3": "^6.1.15",
     "@headlessui/vue": "^1.7.23",
+    "@popperjs/core": "^2.11.8",
     "@vue/compiler-sfc": "^3.5.13",
     "axios": "^1.7.7",
     "pinia": "^2.3.0",
+    "v-calendar": "^3.1.2",
     "vue": "^3.5.13",
     "vue-router": "^4.4.5"
   },

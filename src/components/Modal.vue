@@ -33,8 +33,8 @@ const isOTPRoute = computed(() => route.path === '/profile')
 
         <div class="modal-action">
           <form action="/profile">
-            <div class="grid grid-cols-9 h-12">
-              <div class="col-start-1 col-span-4 py-2.5">
+            <div class="grid grid-cols-5 gap-4 h-12">
+              <div class="col-start-1 col-end-3 place-content-center ">
                 <input
                   type="checkbox"
                   class="h-6 w-6 checkbox inline-block align-middle border-orange-400 [--chkbg:theme(colors.indigo.600)] checked:border-indigo-800 mr-2"
@@ -42,13 +42,8 @@ const isOTPRoute = computed(() => route.path === '/profile')
                 />
                 <span class="inline-block align-middle">I have read and understood</span>
               </div>
-              <div class="col-start-5 col-span-2">
-                <button class="btn w-32 text-white bg-blue-600" type="submit">I Agree</button>
-              </div>
-              <div class="col-start-8 col-span-2">
-                <button class="btn w-32 text-white bg-gray-500" @click="$emit('close')">
-                  I Disagree
-                </button>
+              <div class="col-start-4 col-span-2">
+                <button class="btn w-full text-white bg-blue-600" type="submit">I Agree</button>
               </div>
             </div>
           </form>

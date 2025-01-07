@@ -22,7 +22,6 @@ const closeModal = () => {
       <Navbar @open-modal="openModal" />
 
       <Modal :show="isModalOpen" @close="closeModal" />
-      <LandingPage />
     </div>
   </header>
 

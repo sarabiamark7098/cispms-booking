@@ -1,40 +1,3 @@
-<!-- <script setup>
-import { computed, ref } from 'vue'
-import { useRoute } from 'vue-router'
-
-import RecordClientInfo from '@/components/RecordClientInfo.vue'
-import RequestAssistance from '@/components/RequestAssistance.vue'
-import ScheduleClient from '@/components/ScheduleClient.vue'
-
-const route = useRoute()
-
-const isAssistance = computed(() => route.path === '/request/assistance')
-const isSchedule = computed(() => route.path === '/request/schedule')
-const isClient = computed(() => route.path === '/request/client')
-// const isUpload = computed(() => route.path === '/request/upload')
-</script>
-
-<template>
-  <div>
-    <div class="grid grid-cols-6 h-full w-full">
-      <div class="col-start-2 col-end-6 rounded-3xl h-20 mt-32 mb-12">
-        <ul className="w-full steps steps-vertical lg:steps-horizontal text-white font-extrabold">
-          <li className="step">Select Assistance</li>
-          <li className="step">Schedule</li>
-          <li className="step">Form</li>
-          <li className="step">Upload File</li>
-        </ul>
-      </div>
-    </div>
-    <div class="grid grid-cols-6 w-full">
-      <div class="col-start-2 col-end-6 bg-gray-200 rounded-3xl mb-20 p-9">
-        <RequestAssistance v-if="isAssistance" />
-        <ScheduleClient v-if="isSchedule" />
-        <RecordClientInfo v-if="isClient" />
-      </div>
-    </div>
-  </div>
-</template> -->
 <script setup>
 import { ref } from 'vue'
 import RecordClientInfo from '@/components/RecordClientInfo.vue'
@@ -71,33 +34,35 @@ const submitForm = () => {
     <div class="grid grid-cols-6 h-full w-full">
       <div class="col-start-2 col-end-6 rounded-3xl h-20 mt-32 mb-12">
         <ul class="w-full steps steps-vertical lg:steps-horizontal text-white font-extrabold">
-          <li class="step step-warning">Select Assistance</li>
-          <li class="step step-warning">Schedule</li>
-          <li class="step step-warning">Form</li>
-          <li class="step step-warning">Upload File</li>
+          <li class="step" :class="{ 'step-warning': currentStep >= 1 }">Select Assistance</li>
+          <li class="step" :class="{ 'step-warning': currentStep >= 2 }">Schedule</li>
+          <li class="step" :class="{ 'step-warning': currentStep >= 3 }">Form</li>
+          <li class="step" :class="{ 'step-warning': currentStep >= 4 }">Upload File</li>
         </ul>
       </div>
     </div>
 
     <!-- Step Content -->
     <div v-if="currentStep === 1">
-      <div class="grid grid-cols-6 w-full">
-        <div class="col-start-2 col-end-6 bg-gray-200 rounded-3xl mb-20 p-9">
+      <div class="grid grid-cols-1 sm:grid-cols-6 gap-4 sm:gap-9">
+        <div
+          class="col-start-1 col-end-7 sm:col-start-2 sm:col-end-6 bg-gray-200 rounded-3xl mb-20 p-6 sm:p-9"
+        >
           <RequestAssistance />
-          <div class="grid grid-cols-6 gap-9 w-full mt-9">
-            <div class="w-full col-start-1 col-span-3">
+          <div class="grid grid-cols-1 sm:grid-cols-6 gap-4 sm:gap-9 w-full mt-9">
+            <div class="w-full col-start-1 col-span-1 sm:col-start-1 sm:col-span-3">
               <button
-                className="btn btn-outline w-full btn-default btn-xs sm:btn-sm md:btn-md lg:btn-lg"
+                class="btn btn-outline w-full btn-default btn-xs sm:btn-sm md:btn-md lg:btn-lg"
                 @click="$router.push('/profile')"
               >
                 Cancel
               </button>
             </div>
-            <div class="w-full col-start-4 col-span-3">
+            <div class="w-full col-start-1 col-span-1 sm:col-start-4 sm:col-span-3">
               <button
                 type="submit"
                 @click="nextStep"
-                className="btn w-full btn-primary hover:text-white btn-xs sm:btn-sm md:btn-md lg:btn-lg "
+                class="btn w-full btn-primary hover:text-white btn-xs sm:btn-sm md:btn-md lg:btn-lg"
               >
                 Next
               </button>
@@ -106,11 +71,40 @@ const submitForm = () => {
         </div>
       </div>
     </div>
+
     <div v-if="currentStep === 2">
-      <ScheduleClient />
+      <ScheduleClient
+        :currentStep="currentStep"
+        @nextStep="nextStep"
+        @previousStep="previousStep"
+      />
     </div>
     <div v-if="currentStep === 3">
       <RecordClientInfo />
+      <div class="grid grid-cols-6 gap-2 w-full absolute bottom-6 right-0 left-0 px-2">
+        <div class="w-full col-start-1 col-span-3">
+          <button
+            className="btn btn-outline w-full btn-default btn-xs sm:btn-sm md:btn-md lg:btn-md"
+            @click="previousStep"
+          >
+            Previous
+          </button>
+        </div>
+        <div class="w-full col-start-4 col-span-3">
+          <button
+            type="submit"
+            @click="nextStep"
+            className="btn w-full btn-primary hover:text-white btn-xs sm:btn-sm md:btn-md lg:btn-md "
+          >
+            Next
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
+
+<style scoped>
+.step {
+}
+</style>
