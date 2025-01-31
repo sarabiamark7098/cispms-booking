@@ -1,33 +1,44 @@
 <script setup>
 import { ref, reactive } from 'vue'
-import FullCalendar from '@fullcalendar/vue3'
 import dayGridPlugin from '@fullcalendar/daygrid'
-import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 
-// Maximum number of clients per day
-const MAX_CLIENTS = 50
-// Reactive state
-const selectedDate = ref(null)
-// Booking data structure to track bookings per day
-const bookings = reactive({
-  '2025-01-01': 12, // 12 clients booked for January 1
-  '2025-01-04': 12, // 12 clients booked for January 4
-  '2025-01-05': 12, // 12 clients booked for January 5
-  '2025-01-02': MAX_CLIENTS, // Fully booked for January 2
-  '2025-01-03': MAX_CLIENTS, // Fully booked for January 3
-  '2025-01-06': MAX_CLIENTS, // Fully booked for January 6
+// Reactive state for maximum clients per day
+const maxClients = reactive({
+  '2025-01-01': 50,
+  '2025-01-02': 50,
+  '2025-01-03': 60,
+  '2025-01-04': 50,
+  '2025-01-05': 50,
+  '2025-01-06': 60,
+  '2025-01-07': 60,
 })
 
+// Reactive state for current bookings per day
+const bookings = reactive({
+  '2025-01-01': 12,
+  '2025-01-02': 50,
+  '2025-01-03': 60,
+  '2025-01-04': 12,
+  '2025-01-05': 12,
+  '2025-01-06': 60,
+  '2025-01-07': 60,
+})
+
+const selectedDate = ref(null)
+
+// Function to get day color based on bookings and maxClients
 const getDayColor = (date) => {
-  const bookingsForDate = bookings[date]
-  if (bookingsForDate < MAX_CLIENTS) return 'green' // Not yet available
-  if (bookingsForDate >= MAX_CLIENTS) return 'red' // Fully booked
-  return 'gray' // Available
+  const bookingsForDate = bookings[date] || 0
+  const maxForDate = maxClients[date] || 50 // Default max clients if not specified
+  if (bookingsForDate < maxForDate) return 'green' // Available
+  if (bookingsForDate >= maxForDate) return 'red' // Fully booked
+  return 'gray' // No data
 }
 
+// FullCalendar options
 const calendarOptions = ref({
-  plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
+  plugins: [dayGridPlugin, interactionPlugin],
   headerToolbar: {
     left: '',
     center: 'title',
@@ -37,69 +48,64 @@ const calendarOptions = ref({
   editable: false,
   showNonCurrentDates: false,
   selectable: true,
-  selectMirror: true,
   weekends: true,
   events: (info, successCallback) => {
     const events = []
+    const startDate = new Date(info.startStr)
+    const endDate = new Date(info.endStr)
 
-    // Loop through all the dates in the current view
-    const startDate = info.startStr
-    const endDate = info.endStr
-    let currentDate = new Date(startDate)
-    const endDateObj = new Date(endDate)
-
-    // Add events for each day in the current view
-    while (currentDate <= endDateObj) {
+    let currentDate = startDate
+    while (currentDate <= endDate) {
       const dateStr = currentDate.toISOString().split('T')[0]
-      events.push({
-        title: '',
-        start: dateStr,
-        backgroundColor: getDayColor(dateStr), // Apply background color
-        borderColor: getDayColor(dateStr), // Apply border color
-        textColor: 'White', // Optional: for better visibility of text
-        extendedProps: {
-          bookingsText: `Bookings: ${bookings[dateStr] || 0}/${MAX_CLIENTS}`, // Custom prop for bookings text
-          date: dateStr // Include the date in the extended properties
-        }
-      })
+      if (bookings[dateStr] !== undefined || maxClients[dateStr] !== undefined) {
+        events.push({
+          start: dateStr,
+          display: 'background',
+          backgroundColor: getDayColor(dateStr),
+          borderColor: 'white',
+        })
+      }
       currentDate.setDate(currentDate.getDate() + 1)
     }
 
-    // Return all the events to FullCalendar
     successCallback(events)
   },
   selectAllow: (selectInfo) => {
-    // Allow only 2-day selection (difference between start and end must be 1 day)
-    const startDate = selectInfo.start
-    const endDate = selectInfo.end
-    const diffDays = (endDate - startDate) / (1000 * 3600 * 24) // Difference in days
-    return diffDays === 1 // Allow only 2-day selection
+    const startDate = new Date(selectInfo.startStr)
+    const endDate = new Date(selectInfo.endStr)
+    const diffDays = (endDate - startDate) / (1000 * 3600 * 24)
+    return diffDays === 1 // Allow selection of a single day
   },
   select: (selectInfo) => {
-    selectedDate.value = `${selectInfo.startStr} to ${selectInfo.endStr}` // Update selected date range
-    // Simulate adding a booking for the selected day (we'll add 1 client per selection)
     const selectedDay = selectInfo.startStr
-    if (bookings[selectedDay] < MAX_CLIENTS) {
+    const maxForDay = maxClients[selectedDay] || 50 // Default max clients
+    if ((bookings[selectedDay] || 0) < maxForDay) {
       bookings[selectedDay] = (bookings[selectedDay] || 0) + 1
     }
-  },
-  eventContent: (arg) => {
-    const { bookingsText } = arg.event.extendedProps
-    return {
-      html: `<div style=" display:absolute border: solid 1px black; font-size: 12px; color: white; text-align:center;">
-        ${bookingsText}
-      </div>`,
-    }
+    selectedDate.value = selectedDay
   },
 })
 </script>
 
 <template>
-  <div class="text-lg">Please Select a Date:</div>
-  <p v-if="selectedDate" class="selected-date">
-    Selected Date: <strong>{{ selectedDate }}</strong>
-  </p>
-  <div class="calendar-container">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4 px-4 md:px-6 lg:px-10">
+    <!-- Date Selection and Legends -->
+    <div>
+      <h3 class="text-lg font-semibold">Please Select a Date:</h3>
+      <span v-if="selectedDate" class="block mt-2 text-base font-medium text-black">
+        Selected Date: <strong>{{ selectedDate }}</strong>
+      </span>
+    </div>
+    <div class="border-2 border-gray-400 rounded-lg p-4 bg-gray-50">
+      <h4 class="text-lg font-semibold">Legends:</h4>
+      <div class="flex flex-wrap gap-3 mt-4">
+        <span class="bg-green-600 px-3 py-1 text-white rounded-md">Available</span>
+        <span class="bg-red-400 px-3 py-1 text-white rounded-md">Fully Booked</span>
+        <span class="bg-gray-200 px-3 py-1 text-gray-700 rounded-md">No Data</span>
+      </div>
+    </div>
+  </div>
+  <div class="calendar-container px-4 md:px-6 lg:px-10">
     <main class="calendar-main">
       <FullCalendar class="calendar" :options="calendarOptions" />
     </main>
@@ -107,55 +113,24 @@ const calendarOptions = ref({
 </template>
 
 <style scoped>
-/* General Styles */
+/* Responsive Styles */
 .calendar-container {
-  display: flex;
-  height: 100%;
   width: 100%;
   font-family: Roboto, Arial, Helvetica, sans-serif;
   font-size: 14px;
 }
 
-.selected-date {
-  margin: 10px 0;
-  font-size: 16px;
-  font-weight: 500;
-  color: #e60909;
-}
-
-/* Calendar Styles */
 .calendar-main {
   width: 100%;
-  height: 100%;
 }
 
 .calendar {
   margin: 0 auto;
 }
 
-/* Custom event content wrapper */
-.fc-booking-wrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end; /* Align text at the bottom */
-  height: 100%;
-  cursor: pointer;
-}
-
-/* Style the clickable bookings text */
-.fc-bookings-text {
-  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
-  color: white;
-  padding: 5px;
-  font-size: 12px;
-  border-radius: 3px;
-  text-align: center;
-  margin-top: auto; /* Push the text to the bottom */
-  width: 100%;
-}
-
-/* Hover effect */
-.fc-booking-wrapper:hover .fc-bookings-text {
-  text-decoration: underline;
+@media (max-width: 768px) {
+  .calendar-main {
+    font-size: 12px;
+  }
 }
 </style>

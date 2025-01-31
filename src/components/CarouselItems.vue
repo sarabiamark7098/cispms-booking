@@ -79,27 +79,40 @@ const items = [
 </script>
 
 <template>
-  <div className="carousel w-full ">
-    <div v-for="item in items" :key="item.name">
-      <div className="carousel-item">
-        <div
-          class="bg-white w-[345px] h-[650px] rounded-xl aspect-square px-12 py-5 mx-5 flex flex-col items-center"
-        >
-          <div class="h-[70px]">
-            <p class="font-bold text-lg mb-5 text-center">{{ item.name }}</p>
-          </div>
-          <img :src="item.image" :alt="item.name" class="max-h-[120px] mb-7" />
-          <div>
-            <ul class="list-disc space-y-1">
-              <li v-for="description in item.desc" class="">
-                {{ description }}
-              </li>
-            </ul>
+  <div className="carousel carousel-container relative overflow-hidden">
+    <div
+      class="flex transition-transform duration-500"
+      :style="{ transform: `translateX(-${currentIndex * 360}px)` }"
+    >
+      <div v-for="item in items" :key="item.name">
+        <div className="carousel-item">
+          <div
+            class="bg-white w-[345px] h-[650px] rounded-xl aspect-square px-12 py-5 mx-5 flex flex-col items-center"
+          >
+            <div class="h-[70px]">
+              <p class="font-bold text-lg mb-5 text-center">{{ item.name }}</p>
+            </div>
+            <img :src="item.image" :alt="item.name" class="max-h-[120px] mb-7" />
+            <div>
+              <ul class="list-disc space-y-1">
+                <li v-for="description in item.desc" class="">
+                  {{ description }}
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
 </template>
+<style scoped>
+.carousel-container {
+  width: 100%;
+  margin: 0 auto;
+}
 
-<style scoped></style>
+.carousel-item {
+  flex-basis: 345px;
+}
+</style>

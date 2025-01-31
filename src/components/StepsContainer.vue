@@ -3,9 +3,11 @@ import { ref } from 'vue'
 import RecordClientInfo from '@/components/RecordClientInfo.vue'
 import RequestAssistance from '@/components/RequestAssistance.vue'
 import ScheduleClient from '@/components/ScheduleClient.vue'
+import UploadingDocuments from '@/components/UploadingDocuments.vue'
 
 const currentStep = ref(1)
 
+const RequestAssistanceForm = localStorage.getItem('assistance')
 const form = ref({
   name: '',
   address: '',
@@ -21,11 +23,6 @@ const previousStep = () => {
   if (currentStep.value > 1) {
     currentStep.value--
   }
-}
-
-const submitForm = () => {
-  alert(`Form Submitted!\nName: ${form.value.name}\nAddress: ${form.value.address}`)
-  // Handle form submission logic here (e.g., send data to an API)
 }
 </script>
 <template>
@@ -44,12 +41,10 @@ const submitForm = () => {
 
     <!-- Step Content -->
     <div v-if="currentStep === 1">
-      <div class="grid grid-cols-1 sm:grid-cols-6 gap-4 sm:gap-9">
-        <div
-          class="col-start-1 col-end-7 sm:col-start-2 sm:col-end-6 bg-gray-200 rounded-3xl mb-20 p-6 sm:p-9"
-        >
+      <div class="grid grid-cols-7 gap-4 sm:gap-9">
+        <div class="col-start-2 col-end-7 bg-gray-200 rounded-3xl mb-20 p-6 sm:p-9">
           <RequestAssistance />
-          <div class="grid grid-cols-1 sm:grid-cols-6 gap-4 sm:gap-9 w-full mt-9">
+          <div class="grid grid-cols-6 gap-4 sm:gap-9 w-full mt-9">
             <div class="w-full col-start-1 col-span-1 sm:col-start-1 sm:col-span-3">
               <button
                 class="btn btn-outline w-full btn-default btn-xs sm:btn-sm md:btn-md lg:btn-lg"
@@ -80,31 +75,17 @@ const submitForm = () => {
       />
     </div>
     <div v-if="currentStep === 3">
-      <RecordClientInfo />
-      <div class="grid grid-cols-6 gap-2 w-full absolute bottom-6 right-0 left-0 px-2">
-        <div class="w-full col-start-1 col-span-3">
-          <button
-            className="btn btn-outline w-full btn-default btn-xs sm:btn-sm md:btn-md lg:btn-md"
-            @click="previousStep"
-          >
-            Previous
-          </button>
-        </div>
-        <div class="w-full col-start-4 col-span-3">
-          <button
-            type="submit"
-            @click="nextStep"
-            className="btn w-full btn-primary hover:text-white btn-xs sm:btn-sm md:btn-md lg:btn-md "
-          >
-            Next
-          </button>
-        </div>
-      </div>
+      <RecordClientInfo
+        :currentStep="currentStep"
+        @nextStep="nextStep"
+        @previousStep="previousStep"
+      />
+    </div>
+
+    <div v-if="currentStep === 4">
+      <UploadingDocuments :currentStep="currentStep" @previousStep="previousStep" />
     </div>
   </div>
 </template>
 
-<style scoped>
-.step {
-}
-</style>
+<style scoped></style>

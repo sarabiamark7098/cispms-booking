@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import DataPrivacy from '@/components/DataPrivacy.vue'
-import RequestOTP from './RequestOTP.vue'
+import RequestOTP from '@/components/RequestOTP.vue'
 
 const formData = ''
 
@@ -21,6 +21,7 @@ const route = useRoute()
 
 const isDataPrivacyRoute = computed(() => route.path === '/')
 const isOTPRoute = computed(() => route.path === '/profile')
+const isRequestAssistance = computed(() => route.path === '/request')
 </script>
 <template>
   <div>
@@ -34,7 +35,7 @@ const isOTPRoute = computed(() => route.path === '/profile')
         <div class="modal-action">
           <form action="/profile">
             <div class="grid grid-cols-5 gap-4 h-12">
-              <div class="col-start-1 col-end-3 place-content-center ">
+              <div class="col-start-1 col-end-3 place-content-center">
                 <input
                   type="checkbox"
                   class="h-6 w-6 checkbox inline-block align-middle border-orange-400 [--chkbg:theme(colors.indigo.600)] checked:border-indigo-800 mr-2"
@@ -43,7 +44,9 @@ const isOTPRoute = computed(() => route.path === '/profile')
                 <span class="inline-block align-middle">I have read and understood</span>
               </div>
               <div class="col-start-4 col-span-2">
-                <button class="btn w-full text-white bg-blue-600" type="submit">I Agree</button>
+                <button class="btn w-full text-white bg-[#1D4BB2] hover:bg-#1D4BB2" type="submit">
+                  I Agree
+                </button>
               </div>
             </div>
           </form>
@@ -51,7 +54,7 @@ const isOTPRoute = computed(() => route.path === '/profile')
       </div>
 
       <div v-else-if="isOTPRoute" class="modal-box max-w-xl">
-        <RequestOTP />
+        <RequestOTP @close="$emit('close')" />
       </div>
     </dialog>
   </div>

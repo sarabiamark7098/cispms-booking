@@ -2,8 +2,6 @@
 import { ref } from 'vue'
 import Assistance_Card from './Assistance_Card.vue'
 
-const selectedAssistance = ref('')
-// defineEmits(['open-modal'])
 </script>
 
 <template>
