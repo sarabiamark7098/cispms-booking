@@ -1,11 +1,59 @@
 import { defineStore } from 'pinia'
 import { ref, watch } from 'vue'
+import axios from 'axios'
+
+export const useFormStoreDataPrivacy = defineStore('dataPrivacy', () => {
+  // State: Holds the form data
+  const dataPrivacyForm = ref({
+    token: '',
+  })
+
+  // Load from LocalStorage when initializing the store
+  const storedDataPrivacy = localStorage.getItem('dataPrivacy')
+  if (storedDataPrivacy) {
+    dataPrivacyForm.value = JSON.parse(storedDataPrivacy)
+  }
+
+  // Watch for changes and update LocalStorage
+  watch(
+    dataPrivacyForm,
+    (newValue) => {
+      localStorage.setItem('dataPrivacy', JSON.stringify(newValue))
+    },
+    { deep: true }
+  )
+
+  // Generate and save a new token
+  const generateToken = () => Math.random().toString(36).substr(2, 60)
+
+  // Submit Form: Generates a token and saves it
+  const submitDataPrivacyForm = () => {
+    dataPrivacyForm.value.token = generateToken()
+    console.log('Data Privacy Token:', dataPrivacyForm.value.token)
+  }
+
+  // Reset Form: Clears data and removes it from LocalStorage
+  const resetDataPrivacyForm = () => {
+    dataPrivacyForm.value = { token: '' }
+    localStorage.removeItem('dataPrivacy')
+  }
+
+  return {
+    dataPrivacyForm,
+    submitDataPrivacyForm,
+    resetDataPrivacyForm,
+  }
+})
 
 export const useFormStoreClient = defineStore('client', () => {
   // Default state
   const clientForm = ref({
-    address: '',
-    phoneNumber: '09', // Default starting value
+    lastName: '',
+    firstName: '',
+    middleName: '',
+    extensionName: '',
+    contactNumber: '09', // Default starting value
+    email: '',
   })
 
   // Load from localStorage on initialization
@@ -26,14 +74,32 @@ export const useFormStoreClient = defineStore('client', () => {
   // Utility methods
   const resetClientForm = () => {
     clientForm.value = {
+      lastName: '',
+      firstName: '',
+      middleName: '',
+      extensionName: '',
       address: '',
       phoneNumber: '09',
+      email: '',
+    }
+    localStorage.removeItem('client') // Remove from localStorage
+  }
+
+  // Submit Form to Backend
+  const submitClientForm = async () => {
+    try {
+      const response = await axios.post('/api/client/preliminary', clientForm.value)
+      console.log('Success:', response.data)
+      // resetClientForm()
+    } catch (error) {
+      console.error('Error submitting form:', error.response?.data || error.message)
     }
   }
 
   return {
     clientForm,
     resetClientForm,
+    submitClientForm,
   }
 })
 

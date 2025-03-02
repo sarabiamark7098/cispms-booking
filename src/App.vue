@@ -1,9 +1,8 @@
 <script setup>
 import { ref } from 'vue'
-import { RouterLink, RouterView } from 'vue-router'
-import LandingPage from './components/LandingPage.vue'
-import Navbar from './components/Navbar.vue'
-import Modal from './components/Modal.vue'
+import { RouterView } from 'vue-router'
+import Navbar from '@/components/Navbar.vue'
+import Modal from '@/components/Modal.vue'
 
 const isModalOpen = ref(false)
 

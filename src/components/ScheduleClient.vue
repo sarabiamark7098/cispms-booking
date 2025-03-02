@@ -66,7 +66,7 @@ const handlePrevious = () => {
       class="relative col-span-1 lg:col-start-10 lg:col-end-12 bg-gray-200 rounded-3xl mb-10 lg:mb-20 p-6 lg:py-12"
     >
       <label class="text-base lg:text-lg">Select a Time Slot:</label>
-      <div class="grid gap-6 py-6 pb-16">
+      <div class="grid gap-6 py-6 pb-24">
         <button class="btn btn-success w-full h-14 lg:h-16 text-base lg:text-lg text-white">
           AM
         </button>
@@ -74,26 +74,26 @@ const handlePrevious = () => {
           PM
         </button>
       </div>
+      <!-- Button Container -->
       <div
-        class="grid grid-cols-2 gap-3 lg:gap-2 w-full absolute bottom-6 right-0 left-0 px-2 "
+        class="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full mt-12 absolute bottom-6 right-0 left-0 px-2"
       >
-        <div>
-          <button
-            class="btn btn-outline w-full btn-default text-sm sm:text-base lg:btn-md"
-            @click="handlePrevious"
-          >
-            Previous
-          </button>
-        </div>
-        <div>
-          <button
-            type="submit"
-            class="btn btn-primary w-full hover:text-white text-sm sm:text-base lg:btn-md"
-            @click="handleNext"
-          >
-            Next
-          </button>
-        </div>
+        <!-- Cancel Button -->
+        <button
+          class="btn btn-outline w-full btn-default btn-sm sm:btn-md lg:btn-lg"
+          @click="handlePrevious"
+        >
+          Previous
+        </button>
+
+        <!-- Next Button -->
+        <button
+          type="submit"
+          @click="nextStep"
+          class="btn w-full btn-primary hover:text-white btn-sm sm:btn-md lg:btn-lg"
+        >
+          Next
+        </button>
       </div>
     </div>
   </div>

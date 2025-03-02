@@ -16,6 +16,12 @@ const handleFileUpload = (event) => {
   uploadedFiles.value = [...uploadedFiles.value, ...newFiles]
 }
 
+const removeRecord = () => {
+  localStorage.removeItem('assistance')
+  localStorage.removeItem('client')
+  localStorage.removeItem('requestor')
+}
+
 defineProps({
   currentStep: {
     type: Number,
@@ -94,12 +100,16 @@ const nextRecord = () => {
       <div class="grid grid-cols-2 gap-5 mt-6">
         <!-- Buttons -->
         <div class="w-full">
-          <button class="btn btn-outline w-full btn-default btn-sm md:btn-md lg:btn-lg" @click="handlePrevious">
+          <button
+            class="btn btn-outline w-full btn-default btn-sm md:btn-md lg:btn-lg"
+            @click="handlePrevious"
+          >
             Previous
           </button>
         </div>
         <div class="w-full">
           <button
+            @click="removeRecord"
             type="submit"
             class="btn w-full btn-primary hover:text-white btn-sm md:btn-md lg:btn-lg"
           >

@@ -11,7 +11,7 @@ const attrs = useAttrs()
 
 <template>
   <div class="bg-[#1D4BB2]">
-    <div class="relative max-w-full mt-20 border-2" v-bind="attrs">
+    <div class="relative max-w-full mt-20" v-bind="attrs">
       <!-- Header Section -->
       <img
         src="@/assets/Home.jpg"

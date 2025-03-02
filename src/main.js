@@ -8,6 +8,11 @@ import { createPinia } from 'pinia'
 import { setupCalendar, Calendar, DatePicker } from 'v-calendar'
 import 'v-calendar/style.css'
 import FullCalendar from '@fullcalendar/vue3'
+import axios from 'axios'
+
+axios.defaults.baseURL = import.meta.env.VITE_API_URL // Correct property name
+
+export default axios
 
 const app = createApp(App)
 app.use(router)

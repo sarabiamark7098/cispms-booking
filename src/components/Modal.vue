@@ -1,10 +1,17 @@
 <script setup>
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
+import { useFormStoreDataPrivacy } from '@/stores/storeform'
 import DataPrivacy from '@/components/DataPrivacy.vue'
 import RequestOTP from '@/components/RequestOTP.vue'
 
-const formData = ''
+const formDataPrivacyStore = useFormStoreDataPrivacy()
+
+onMounted(() => {
+  if (localStorage.getItem('dataPrivacy')) {
+    formDataPrivacyStore.clientForm = JSON.parse(localStorage.getItem('dataPrivacy'))
+  }
+})
 
 const { show } = defineProps({
   show: {
@@ -21,7 +28,6 @@ const route = useRoute()
 
 const isDataPrivacyRoute = computed(() => route.path === '/')
 const isOTPRoute = computed(() => route.path === '/profile')
-const isRequestAssistance = computed(() => route.path === '/request')
 </script>
 <template>
   <div>
@@ -33,7 +39,7 @@ const isRequestAssistance = computed(() => route.path === '/request')
         <DataPrivacy />
 
         <div class="modal-action">
-          <form action="/profile">
+          <form @submit.prevent="formDataPrivacyStore.submitDataPrivacyForm(), router.push('/profile')">
             <div class="grid grid-cols-5 gap-4 h-12">
               <div class="col-start-1 col-end-3 place-content-center">
                 <input

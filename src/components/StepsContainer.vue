@@ -30,39 +30,41 @@ const previousStep = () => {
     <!-- Step Navigation -->
     <div class="grid grid-cols-6 h-full w-full">
       <div class="col-start-2 col-end-6 rounded-3xl h-20 mt-32 mb-12">
-        <ul class="w-full steps steps-vertical lg:steps-horizontal text-white font-extrabold">
-          <li class="step" :class="{ 'step-warning': currentStep >= 1 }">Select Assistance</li>
-          <li class="step" :class="{ 'step-warning': currentStep >= 2 }">Schedule</li>
-          <li class="step" :class="{ 'step-warning': currentStep >= 3 }">Form</li>
-          <li class="step" :class="{ 'step-warning': currentStep >= 4 }">Upload File</li>
+        <ul class="w-full steps steps-horizontal text-white font-extrabold">
+          <li class="step" :class="{ 'step-warning': currentStep >= 1 }">
+            <span>Select Assistance</span>
+          </li>
+          <li class="step" :class="{ 'step-warning': currentStep >= 2 }"><span>Schedule</span></li>
+          <li class="step" :class="{ 'step-warning': currentStep >= 3 }"><span>Form</span></li>
+          <li class="step" :class="{ 'step-warning': currentStep >= 4 }">
+            <span>Upload File</span>
+          </li>
         </ul>
       </div>
     </div>
 
     <!-- Step Content -->
-    <div v-if="currentStep === 1">
-      <div class="grid grid-cols-7 gap-4 sm:gap-9">
-        <div class="col-start-2 col-end-7 bg-gray-200 rounded-3xl mb-20 p-6 sm:p-9">
-          <RequestAssistance />
-          <div class="grid grid-cols-6 gap-4 sm:gap-9 w-full mt-9">
-            <div class="w-full col-start-1 col-span-1 sm:col-start-1 sm:col-span-3">
-              <button
-                class="btn btn-outline w-full btn-default btn-xs sm:btn-sm md:btn-md lg:btn-lg"
-                @click="$router.push('/profile')"
-              >
-                Cancel
-              </button>
-            </div>
-            <div class="w-full col-start-1 col-span-1 sm:col-start-4 sm:col-span-3">
-              <button
-                type="submit"
-                @click="nextStep"
-                class="btn w-full btn-primary hover:text-white btn-xs sm:btn-sm md:btn-md lg:btn-lg"
-              >
-                Next
-              </button>
-            </div>
-          </div>
+    <div v-if="currentStep === 1" class="w-full flex justify-center p-6 lg:px-64">
+      <div class="col-start-2 col-end-7 bg-gray-200 rounded-3xl mb-20 p-6 sm:p-9">
+        <RequestAssistance />
+        <!-- Button Container -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full mt-9">
+          <!-- Cancel Button -->
+          <button
+            class="btn btn-outline w-full btn-default btn-sm sm:btn-md lg:btn-lg"
+            @click="$router.push('/profile')"
+          >
+            Cancel
+          </button>
+
+          <!-- Next Button -->
+          <button
+            type="submit"
+            @click="nextStep"
+            class="btn w-full btn-primary hover:text-white btn-sm sm:btn-md lg:btn-lg"
+          >
+            Next
+          </button>
         </div>
       </div>
     </div>
