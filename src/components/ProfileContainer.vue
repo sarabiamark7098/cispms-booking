@@ -22,10 +22,7 @@ defineEmits(['open-modal'])
 </script>
 
 <template>
-  <form
-    @submit.prevent="formStore.submitClientForm(), $emit('open-modal')"
-    method="POST"
-  >
+  <form @submit.prevent="$emit('open-modal')" method="POST">
     <div class="grid grid-cols-1 md:grid-cols-6 w-full pt-10 md:pt-40 px-4 sm:px-8">
       <div
         class="col-start-1 md:col-start-2 md:col-end-6 bg-gray-100 rounded-3xl mb-12 px-6 sm:px-16 py-8 md:py-12"

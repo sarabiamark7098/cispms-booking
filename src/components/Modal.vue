@@ -1,6 +1,6 @@
 <script setup>
 import { computed, onMounted } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import { useFormStoreDataPrivacy } from '@/stores/storeform'
 import DataPrivacy from '@/components/DataPrivacy.vue'
 import RequestOTP from '@/components/RequestOTP.vue'
@@ -25,6 +25,7 @@ defineEmits(['close'])
 const showBackdrop = computed(() => show)
 
 const route = useRoute()
+const router = useRouter()
 
 const isDataPrivacyRoute = computed(() => route.path === '/')
 const isOTPRoute = computed(() => route.path === '/profile')
@@ -39,7 +40,9 @@ const isOTPRoute = computed(() => route.path === '/profile')
         <DataPrivacy />
 
         <div class="modal-action">
-          <form @submit.prevent="formDataPrivacyStore.submitDataPrivacyForm(), router.push('/profile')">
+          <form
+            @submit.prevent="router.push('/profile'), formDataPrivacyStore.submitDataPrivacyForm(), $emit('close')"
+          >
             <div class="grid grid-cols-5 gap-4 h-12">
               <div class="col-start-1 col-end-3 place-content-center">
                 <input

@@ -1,12 +1,18 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { RouterLink } from 'vue-router'
 
 const isMenuOpen = ref(false)
+const hasDataPrivacy = ref(false)
 
 const toggleMenu = () => {
   isMenuOpen.value = !isMenuOpen.value
 }
+
+// Fetch localStorage value when component is mounted
+onMounted(() => {
+  hasDataPrivacy.value = !!localStorage.getItem('dataPrivacy')
+})
 
 defineEmits(['open-modal'])
 </script>
@@ -71,8 +77,8 @@ defineEmits(['open-modal'])
               >Citizen's Charter</RouterLink
             >
             <RouterLink
-              to="/"
-              @click="$emit('open-modal')"
+              :to="hasDataPrivacy ? '/profile' : '/'"
+              @click="!hasDataPrivacy ? $emit('open-modal') : null"
               class="block w-48 text-center py-3 my-4 text-black font-bold bg-[#1D4BB2] text-white hover:bg-blue-600 rounded-full hover:shadow-md"
               >Set Appointment
             </RouterLink>
