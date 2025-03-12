@@ -49,6 +49,11 @@ const calendarOptions = ref({
   showNonCurrentDates: false,
   selectable: true,
   weekends: true,
+  eventStartEditable: false, // Prevents events from being moved
+  eventResizableFromStart: false, // Prevents resizing
+
+  longPressDelay: 100, // Makes touch selection faster
+  eventLongPressDelay: 100, // Reduces delay before selection
   events: (info, successCallback) => {
     const events = []
     const startDate = new Date(info.startStr)
@@ -78,11 +83,19 @@ const calendarOptions = ref({
   },
   select: (selectInfo) => {
     const selectedDay = selectInfo.startStr
-    const maxForDay = maxClients[selectedDay] || 50 // Default max clients
-    if ((bookings[selectedDay] || 0) < maxForDay) {
+    const maxForDay = maxClients[selectedDay] || 50
+
+    if ((bookings[selectedDay] || 0) < maxForDay && (bookings[selectedDay] || 0) > 0 ) {
+      console.log(bookings[selectedDay] || 0)
       bookings[selectedDay] = (bookings[selectedDay] || 0) + 1
+      selectedDate.value = selectedDay
+    } else if ((bookings[selectedDay] || 0) >= maxForDay) {
+      console.log(bookings[selectedDay] || 0)
+      alert('This day is fully booked. Please choose another date.') // Prevent selection
+    } else{
+      console.log(bookings[selectedDay] || 0)
+      alert('This day has no booking available. Please choose another date.') // Prevent selection  
     }
-    selectedDate.value = selectedDay
   },
 })
 </script>

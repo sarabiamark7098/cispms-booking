@@ -28,6 +28,14 @@ const handlePrevious = () => {
     >
       <p class="text-xl lg:text-2xl mb-5">Select the office most convenient to your location:</p>
 
+      <!-- <label class="text-base lg:text-lg">Region</label>
+      <input
+        type="text"
+        placeholder="Region"
+        class="input w-full bg-gray-100 border border-black mb-5 lg:mb-9"
+        required
+      /> -->
+
       <label class="text-base lg:text-lg">Province</label>
       <input
         type="text"

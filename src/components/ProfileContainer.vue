@@ -1,9 +1,10 @@
 <script setup>
 import { onMounted, ref } from 'vue'
-import { useFormStoreClient } from '@/stores/storeform'
+import { useFormStoreClient, useFormStoreDataPrivacy } from '@/stores/storeform'
 import { vMaska } from 'maska/vue'
 
 const formClientStore = useFormStoreClient()
+const formDataPrivacyStore = useFormStoreDataPrivacy()
 
 onMounted(() => {
   if (localStorage.getItem('client')) {
@@ -27,12 +28,12 @@ defineEmits(['open-modal'])
       <div
         class="col-start-1 md:col-start-2 md:col-end-6 bg-gray-100 rounded-3xl mb-12 px-6 sm:px-16 py-8 md:py-12"
       >
-        <div class="text-center font-extrabold text-2xl sm:text-3xl mb-6 sm:mb-9">
-          Personal and Contact Details
+        <div class="text-center font-extrabold text-3xl sm:text-3xl mb-6 sm:mb-9">
+          Contact Details
+          <p class="text-center text-xl">Please provide the following details:</p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-6 gap-6 sm:gap-9 w-full">
-          <!-- Last Name -->
           <div class="w-full md:col-span-4">
             <label>Apelyido (Last Name)<span class="text-red-600">*</span></label>
             <input
@@ -123,7 +124,11 @@ defineEmits(['open-modal'])
           <div class="w-full md:col-span-3">
             <button
               class="btn btn-outline w-full btn-default btn-sm md:btn-md lg:btn-lg"
-              @click="$router.push('/'), formClientStore.resetClientForm()"
+              @click="
+                $router.push('/'),
+                  formClientStore.resetClientForm(),
+                  formDataPrivacyStore.resetDataPrivacyForm()
+              "
             >
               Cancel
             </button>

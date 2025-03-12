@@ -20,7 +20,7 @@ export const useFormStoreDataPrivacy = defineStore('dataPrivacy', () => {
     (newValue) => {
       localStorage.setItem('dataPrivacy', JSON.stringify(newValue))
     },
-    { deep: true }
+    { deep: true },
   )
 
   // Generate and save a new token
@@ -66,6 +66,10 @@ export const useFormStoreClient = defineStore('client', () => {
   watch(
     clientForm,
     (value) => {
+      if (value.lastName) value.lastName = value.lastName.toUpperCase();
+      if (value.firstName) value.firstName = value.firstName.toUpperCase();
+      if (value.middleName) value.middleName = value.middleName.toUpperCase();
+      if (value.extensionName) value.extensionName = value.extensionName.toUpperCase();
       localStorage.setItem('client', JSON.stringify(value))
     },
     { deep: true },
@@ -79,7 +83,7 @@ export const useFormStoreClient = defineStore('client', () => {
       middleName: '',
       extensionName: '',
       address: '',
-      phoneNumber: '09',
+      contactNumber: '09',
       email: '',
     }
     localStorage.removeItem('client') // Remove from localStorage
